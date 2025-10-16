@@ -1,0 +1,1 @@
+export {default as productControllers} from "./product/product.controller.js"

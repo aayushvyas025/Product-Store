@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 import { envVariables } from "../../helper/index.js";
 
 const {databaseUri} = envVariables; 
-console.log(databaseUri)
 
 const connectToDB = async() => {
     try {
