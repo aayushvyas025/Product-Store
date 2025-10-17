@@ -36,7 +36,7 @@ const productControllers = {
       await newProduct.save();
       response
         .status(201)
-        .json({ success: true, message: "Product Created Successfully" });
+        .json({ success: true, message: "Product Created Successfully", newProduct });
     } catch (error) {
       console.error(`Error While Creating Product: ${error.message}`);
       response
