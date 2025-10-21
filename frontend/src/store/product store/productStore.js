@@ -35,6 +35,12 @@ const useProductStore = create((set) => ({
     } catch (error) {
       console.error(`Error While Fetching Product ${error.message}`); 
     }
+  },
+  updateProduct:async(pid, product) => {
+
+  }, 
+  deleteProduct:async(pid) => {
+    
   }
 }));
 

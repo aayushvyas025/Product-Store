@@ -1,44 +1,47 @@
-import { Container, Text, useToast, VStack } from "@chakra-ui/react";
+import {
+  Container,
+  SimpleGrid,
+  Text,
+  useToast,
+  VStack,
+} from "@chakra-ui/react";
 import { MainLayout } from "../../layout";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useProductStore } from "../../store";
-import { LoaderComponent } from "../../components";
+import { LoaderComponent, ProductCard } from "../../components";
 
 function HomePage() {
-const [loading, setLoading] = useState(false); 
-const {products, fetchProducts} = useProductStore();
-const toast = useToast(); 
+  const [loading, setLoading] = useState(false);
+  const { products, fetchProducts } = useProductStore();
+  const toast = useToast();
 
-  async function fetchAllProducts() { 
+  async function fetchAllProducts() {
     setLoading(true);
-    const {success , message} = await fetchProducts(); 
-    if(!success) {
-        toast({
-            title:"Error",
-            description:message, 
-            status:"error",
-            duration:5000,
-            isClosable:true
-        })        
-    }else {
-        toast({
-            title:"Success",
-            description:message,
-            status:"success",
-            duration:5000, 
-            isClosable:true
-
-        })
-    }; 
+    const { success, message } = await fetchProducts();
+    if (!success) {
+      toast({
+        title: "Error",
+        description: message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    } else {
+      toast({
+        title: "Success",
+        description: message,
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
     setLoading(false);
-  }; 
+  }
 
   useEffect(() => {
-      fetchAllProducts();
-  }, []); 
-
-
+    fetchAllProducts();
+  }, []);
 
   return (
     <MainLayout>
@@ -53,7 +56,17 @@ const toast = useToast();
           >
             Current Products 🚀
           </Text>
-          {loading && <LoaderComponent/>}
+          {loading && <LoaderComponent />}
+          <SimpleGrid
+            columns={{ md: 2, base: 1, lg: 3 }}
+            spacing={10}
+            w={"full"}
+          >
+            {products.length > 0 &&
+              products.map((product) => (
+                <ProductCard id={product._id} product={product} />
+              ))}
+          </SimpleGrid>
           {products.length === 0 && !loading && (
             <Text
               fontSize={"xl"}
