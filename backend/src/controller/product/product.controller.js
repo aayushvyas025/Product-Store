@@ -73,7 +73,7 @@ const productControllers = {
 
       response
         .status(200)
-        .json({ success: true, message: "Product Updated Successfully" });
+        .json({ success: true, message: "Product Updated Successfully", updatedProduct });
     } catch (error) {
       console.error(`Error While Updating Product: ${error.message}`);
       response

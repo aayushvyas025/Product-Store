@@ -30,22 +30,31 @@ const useProductStore = create((set) => ({
     try {
       const response = await fetch(Product.GET);
       const data = await response.json();
-      set({ products: data.products });
+      set({ products: data.products || [] });
       return { success: true, message: "Product Fetch Successfully" };
     } catch (error) {
       console.error(`Error While Fetching Product ${error.message}`);
     }
   },
-  updateProduct: async (pid, uptProduct) => {
+  updateProducts: async (pid, uptProduct) => {
     try {
       const response = await fetch(Product.UPDATE(pid), {
+        method:'PUT',
         headers:{
-          "Content Type": "application/json"
+          "Content-Type": "application/json"
         },
         body:JSON.stringify(uptProduct)
       }); 
-      const data = response.json(); 
-      // set((state) => )
+      const data = await response.json(); 
+      if(!data.success) {
+        return {success:false, message:data.message}
+      }; 
+
+      set((state) => ({
+        products:state.products.map((product) => product._id === pid ? data.updatedProduct : product)
+      })); 
+
+      return {success:true , message: "Product Updated Successfully"};
 
     } catch (error) {
       console.error(`Error While Updating Product ${error.message}`);       

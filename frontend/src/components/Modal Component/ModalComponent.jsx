@@ -8,16 +8,42 @@ import {
   ModalCloseButton,
   VStack,
   Button,
+  useToast,
 } from "@chakra-ui/react";
 import InputComponent from "../Input/InputComponent";
 import { useState } from "react";
+import { useProductStore } from "../../store";
 
 function ModalComponent({ isOpen, onClose, product }) {
   const [updateProduct, setUpdateProduct] = useState(product);
+  const { updateProducts } = useProductStore();
+  const toast = useToast();
+
+  async function updateProductHandler(pid, product) {
+    const { success, message } = await updateProducts(pid, product);
+    if (!success) {
+      toast({
+        title: "Error",
+        description: message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    } else {
+      toast({
+        title: "Success",
+        description: message,
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+    onClose();
+  }
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalBody>
         <ModalContent>
           <ModalHeader>Update Product</ModalHeader>
           <ModalCloseButton />
@@ -27,7 +53,7 @@ function ModalComponent({ isOpen, onClose, product }) {
                 placeholder={"Product Name"}
                 name="name"
                 type={"text"}
-                value={product.name}
+                value={updateProduct.name}
                 onChangeHandler={(event) =>
                   setUpdateProduct({
                     ...updateProduct,
@@ -39,7 +65,7 @@ function ModalComponent({ isOpen, onClose, product }) {
                 placeholder={"Product Price"}
                 name="price"
                 type={"number"}
-                value={product.price}
+                value={updateProduct.price}
                 onChangeHandler={(event) =>
                   setUpdateProduct({
                     ...updateProduct,
@@ -51,7 +77,7 @@ function ModalComponent({ isOpen, onClose, product }) {
                 placeholder={"Product Image"}
                 name="image"
                 type={"text"}
-                value={product.image}
+                value={updateProduct.image}
                 onChangeHandler={(event) =>
                   setUpdateProduct({
                     ...updateProduct,
@@ -62,7 +88,13 @@ function ModalComponent({ isOpen, onClose, product }) {
             </VStack>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" mr={3}>
+            <Button
+              colorScheme="blue"
+              mr={3}
+              onClick={() =>
+                updateProductHandler(updateProduct._id, updateProduct)
+              }
+            >
               Update
             </Button>
             <Button variant="ghost" onClick={onClose}>
@@ -70,7 +102,6 @@ function ModalComponent({ isOpen, onClose, product }) {
             </Button>
           </ModalFooter>
         </ModalContent>
-      </ModalBody>
     </Modal>
   );
 }
