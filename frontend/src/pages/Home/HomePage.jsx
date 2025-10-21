@@ -3,12 +3,15 @@ import { MainLayout } from "../../layout";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useProductStore } from "../../store";
+import { LoaderComponent } from "../../components";
 
 function HomePage() {
+const [loading, setLoading] = useState(false); 
 const {products, fetchProducts} = useProductStore();
 const toast = useToast(); 
 
   async function fetchAllProducts() { 
+    setLoading(true);
     const {success , message} = await fetchProducts(); 
     if(!success) {
         toast({
@@ -28,6 +31,7 @@ const toast = useToast();
 
         })
     }; 
+    setLoading(false);
   }; 
 
   useEffect(() => {
@@ -49,7 +53,8 @@ const toast = useToast();
           >
             Current Products 🚀
           </Text>
-          {products.length === 0 && (
+          {loading && <LoaderComponent/>}
+          {products.length === 0 && !loading && (
             <Text
               fontSize={"xl"}
               textAlign={"center"}
