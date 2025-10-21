@@ -26,6 +26,16 @@ const useProductStore = create((set) => ({
       console.error(`Error while Creating Product ${error.message}`); 
     }
   },
+  fetchProducts:async() => {
+    try {
+      const response = await fetch(Product.GET);
+      const data = await response.json();
+      set({products:data.products});
+      return {success:true, message:"Product Fetch Successfully"}
+    } catch (error) {
+      console.error(`Error While Fetching Product ${error.message}`); 
+    }
+  }
 }));
 
 export default useProductStore;

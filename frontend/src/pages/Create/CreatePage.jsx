@@ -17,6 +17,7 @@ function CreatePage() {
     price: "",
     image: "",
   });
+
   const toast = useToast();
   const { createProducts } = useProductStore();
 
@@ -24,7 +25,7 @@ function CreatePage() {
     const { success, message } = await createProducts(newProduct);
     if (!success) {
       toast({
-        toast: "Error",
+        title: "Error",
         description: message,
         status: "error",
         duration: 5000,
@@ -32,12 +33,13 @@ function CreatePage() {
       });
     } else {
       toast({
-        toast: "Success",
+        title: "Success",
         description: message,
         status: "success",
         duration: 5000,
         isClosable: true,
       });
+      setNewProduct({name:"", price:"", image:""})
     }
   }
 
