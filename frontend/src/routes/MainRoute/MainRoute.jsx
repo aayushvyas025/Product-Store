@@ -1,5 +1,9 @@
 import { Route, Routes } from "react-router-dom";
-import { CreatePage, HomePage, NotFoundPage } from "../../pages";
+import { lazy } from "react";
+
+const CreatePage = lazy(() => import("../../pages/Create/CreatePage"));
+const HomePage = lazy(() => import("../../pages/Home/HomePage")); 
+const NotFoundPage = lazy(() => import("../../pages/NotFound/NotFoundPage"))
 
 function MainRoute() {
   return (
