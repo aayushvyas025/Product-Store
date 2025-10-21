@@ -7,15 +7,19 @@ import {
   Image,
   Text,
   useColorModeValue,
+  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import { useProductStore } from "../../store";
+import ModalComponent from "../Modal Component/ModalComponent";
 
 function ProductCard({ product }) {
   const textColor = useColorModeValue("gray.600", "gray.200");
   const bg = useColorModeValue("white", "gray.800");
   const toast = useToast();
   const { deleteProduct } = useProductStore();
+
+   const { isOpen, onOpen, onClose } = useDisclosure()
   async function deleteProductHandler(pid) {
     const { success, message } = await deleteProduct(pid);
     if (!success) {
@@ -60,10 +64,11 @@ function ProductCard({ product }) {
           Price: {product.price} &#8377;
         </Text>
         <HStack spacing={2}>
-          <IconButton icon={<EditIcon />} colorScheme="blue" />
+          <IconButton icon={<EditIcon />} colorScheme="blue" onClick={onOpen} />
           <IconButton icon={<DeleteIcon />} colorScheme="red" onClick={() => deleteProductHandler(product._id)}  />
         </HStack>
       </Box>
+      <ModalComponent isOpen={isOpen} onClose={onClose} product={product} />
     </Box>
   );
 }

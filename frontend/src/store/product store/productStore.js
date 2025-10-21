@@ -36,7 +36,21 @@ const useProductStore = create((set) => ({
       console.error(`Error While Fetching Product ${error.message}`);
     }
   },
-  updateProduct: async (pid, product) => {},
+  updateProduct: async (pid, uptProduct) => {
+    try {
+      const response = await fetch(Product.UPDATE(pid), {
+        headers:{
+          "Content Type": "application/json"
+        },
+        body:JSON.stringify(uptProduct)
+      }); 
+      const data = response.json(); 
+      // set((state) => )
+
+    } catch (error) {
+      console.error(`Error While Updating Product ${error.message}`);       
+    }
+  },
   deleteProduct: async (pid) => {
     try {
       const response = await fetch(Product.DELETE(pid), {
