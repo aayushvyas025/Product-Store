@@ -30,8 +30,8 @@ const useProductStore = create((set) => ({
     try {
       const response = await fetch(Product.GET);
       const data = await response.json();
-      set({ products: data.products || [] });
-      return { success: true, message: "Product Fetch Successfully" };
+      set({ products: data?.products || [] });
+      return { success: true, message: data?.products.length > 0 ? "Product Fetch Successfully" : "No Products Found" };
     } catch (error) {
       console.error(`Error While Fetching Product ${error.message}`);
     }
