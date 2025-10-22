@@ -1,8 +1,8 @@
 import envVariables from "./envVariables";
 
-const {backendBaseUrl, nodeEnviornment}  = envVariables 
+const {backendBaseUrl, nodeEnvironment}  = envVariables 
 
-const BASE_URL = nodeEnviornment !== "production" ? backendBaseUrl : "/api/v1";
+const BASE_URL = nodeEnvironment !== "production" ? backendBaseUrl : "/api/v1";
 
 const API = {
     Product:{
