@@ -1,15 +1,15 @@
 import envVariables from "./envVariables";
 
-const {backendBaseUrl, nodeEnvironment}  = envVariables 
+const {backendBaseUrl}  = envVariables 
 
-const BASE_URL = nodeEnvironment !== "production" ? backendBaseUrl : "/api/v1";
+
 
 const API = {
     Product:{
-        CREATE:`${BASE_URL}/products`,
-        GET:`${BASE_URL}/products`,
-        UPDATE:(id) => `${BASE_URL}/products/${id}`,
-        DELETE:(id) => `${BASE_URL}/products/${id}`
+        CREATE:`${backendBaseUrl}/products`,
+        GET:`${backendBaseUrl}/products`,
+        UPDATE:(id) => `${backendBaseUrl}/products/${id}`,
+        DELETE:(id) => `${backendBaseUrl}/products/${id}`
     }
 
 }
